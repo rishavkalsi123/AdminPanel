@@ -1,0 +1,25 @@
+.sidebarList {
+  padding: 1.4rem 0;
+  ul {
+    li {
+      color: #3a3a3a;
+      font-weight: 500;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      border-bottom: 1px solid #ededed;
+      transition: 0.15s ease-in-out;
+      &:hover {
+        border-color: transparent;
+        background-color: #2e7de5;
+        color: #fff;
+      }
+      svg {
+        opacity: 0.9;
+        font-size: 1.2em;
+      }
+    }
+  }
+}

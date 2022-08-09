@@ -1,0 +1,15 @@
+.DashboardLayout {
+  background-color: #f7f6f9;
+}
+.DashboardPage {
+  min-height: calc(100vh - 56px);
+  display: flex;
+}
+.DashboardSidebar {
+  flex-basis: 300px;
+  max-width: 300px;
+  background-color: #fff;
+}
+.DashboardBody {
+  flex-grow: 1;
+}
