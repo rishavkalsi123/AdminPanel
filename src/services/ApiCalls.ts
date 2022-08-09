@@ -6,3 +6,8 @@ export const ProductListCall = () => {
     return response;
   });
 };
+export const UserListCall = () => {
+  return axios.get(`${API_BASE_URL}/users`).then((response) => {
+    return response;
+  });
+};

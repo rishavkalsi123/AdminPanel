@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
+import DashboardLayout from "../components/Layouts/DashboardLayout";
+import ProductCard from "../components/ProductCard/ProductCard";
 import { ProductListCall } from "../services/ApiCalls";
-
+import styles from "./styles/ProductList.module.scss";
 const ProductList = () => {
   const [response, setResponse] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +11,7 @@ const ProductList = () => {
     try {
       const res = await ProductListCall();
       console.log("response===>", res);
-      setResponse(res.data);
+      setResponse(res.data.products);
       if (res.status === 200) {
         setLoading(false);
       }
@@ -21,33 +23,19 @@ const ProductList = () => {
     handleProductList();
   }, []);
   return (
-    <div>
-      <div className="userListPage">
+    <DashboardLayout>
+      <div className={styles.ProductListPage}>
+        <h1>All Products</h1>
         <Row className="g-4">
           {!loading ? (
             response.length &&
             response.map((item: any) => (
-              <Col md={4} key={item.id}>
-                <div className="singleUser">
-                  <div className="singleUser_head">
-                    <div className="singleUser_img">
-                      <img src={item.image} alt="" />
-                    </div>
-                    <div>
-                      <h4>{item.title}</h4>
-                      <p>{item.email}</p>
-                    </div>
-                  </div>
-                  <div className="deleteUser">
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => {}}
-                    >
-                      Add to cart
-                    </Button>
-                  </div>
-                </div>
+              <Col lg={6} xl={4} xxl={3} key={item.id}>
+                <ProductCard
+                  images={item.images[0]}
+                  title={item.title}
+                  description={item.description}
+                />
               </Col>
             ))
           ) : (
@@ -55,7 +43,7 @@ const ProductList = () => {
           )}
         </Row>
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 

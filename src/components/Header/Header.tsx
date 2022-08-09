@@ -7,7 +7,9 @@ const Header = () => {
   return (
     <div className={styles.header}>
       <Navbar className={styles.navbar}>
-        <Navbar.Brand>Navbar</Navbar.Brand>
+        <Navbar.Brand>
+          <Link to="/">Navbar</Link>
+        </Navbar.Brand>
         <Nav>
           <Nav.Link as="li">
             <NavLink to="/">Home</NavLink>

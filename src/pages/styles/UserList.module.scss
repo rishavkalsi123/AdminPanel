@@ -1,0 +1,14 @@
+.userListPage {
+  padding: 2rem;
+  h1 {
+    font-size: 2rem;
+    color: #3a3a3a;
+    margin-bottom: 1rem;
+  }
+  :global(.table) {
+    td,
+    th {
+      padding: 1rem;
+    }
+  }
+}

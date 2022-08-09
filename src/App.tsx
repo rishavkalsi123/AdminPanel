@@ -1,12 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.scss";
+import "./scss/App.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import Cart from "./pages/Cart";
 import PrivateRoute from "./components/PrivateRoute";
 import ProductList from "./pages/ProductList";
+import UserList from "./pages/UserList";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -16,9 +16,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          {/* <Route path="/login" element={<Login />} /> */}
-          {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/product" element={<ProductList />} />
+          <Route path="/user" element={<UserList />} />
         </Routes>
       </BrowserRouter>
     </div>

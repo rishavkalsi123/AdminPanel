@@ -1,15 +1,26 @@
+@import "../../scss/mixins";
 .DashboardLayout {
   background-color: #f7f6f9;
 }
 .DashboardPage {
   min-height: calc(100vh - 56px);
-  display: flex;
 }
 .DashboardSidebar {
-  flex-basis: 300px;
+  position: fixed;
+  top: 56px;
+  bottom: 0;
+  width: 300px;
   max-width: 300px;
+  box-shadow: 4px 0px 14px -5px rgba(0, 0, 0, 0.2);
   background-color: #fff;
+  @include max(767) {
+    width: 200px;
+    max-width: 200px;
+  }
 }
 .DashboardBody {
-  flex-grow: 1;
+  padding-left: 300px;
+  @include max(767) {
+    padding-left: 200px;
+  }
 }
