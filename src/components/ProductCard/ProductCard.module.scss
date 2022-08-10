@@ -10,7 +10,10 @@
     text-align: right;
   }
 }
-.singleProduct_head {
+.singleProduct_inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   h4 {
     color: #3a3a3a;
     font-size: 1rem;
@@ -22,8 +25,14 @@
     color: #919191;
     font-size: 14px;
   }
+  .productContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
-.productContent {
+.productText {
   padding: 10px 0;
 }
 .singleProduct_img {

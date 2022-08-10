@@ -9,3 +9,15 @@
     margin-top: 2rem;
   }
 }
+.loadMore {
+  text-align: center;
+  padding: 1rem 0rem 0;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.1s linear;
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+}

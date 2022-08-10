@@ -18,6 +18,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/product" element={<ProductList />} />
           <Route path="/user" element={<UserList />} />
+          <Route path="/user/post/:id" element={<UserList />} />
         </Routes>
       </BrowserRouter>
     </div>

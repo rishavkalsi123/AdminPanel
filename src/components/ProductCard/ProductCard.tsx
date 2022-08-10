@@ -9,19 +9,21 @@ interface IProps {
 const ProductCard = (props: IProps) => {
   return (
     <div className={styles.singleProduct}>
-      <div className={styles.singleProduct_head}>
+      <div className={styles.singleProduct_inner}>
         <div className={styles.singleProduct_img}>
           <img src={props.images} alt="" />
         </div>
         <div className={styles.productContent}>
-          <h4>{props.title}</h4>
-          <p>{props.description}</p>
+          <div className={styles.productText}>
+            <h4>{props.title}</h4>
+            <p>{props.description}</p>
+          </div>
+          <div className={styles.deleteProduct}>
+            <Button variant="outline-danger" size="sm" onClick={() => {}}>
+              Add to cart
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className={styles.deleteProduct}>
-        <Button variant="outline-danger" size="sm" onClick={() => {}}>
-          Add to cart
-        </Button>
       </div>
     </div>
   );

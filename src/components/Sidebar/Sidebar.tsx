@@ -8,6 +8,12 @@ const Sidebar = () => {
   return (
     <div className={styles.sidebarList}>
       <ul>
+        <Link to="/">
+          <li>
+            <ImUsers />
+            Dashboard
+          </li>
+        </Link>
         <Link to="/user">
           <li>
             <ImUsers />
