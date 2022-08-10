@@ -30,7 +30,6 @@ const UserList = () => {
     setLoading(true);
     handleUserList((activePage - 1) * 20, 20);
   }, [activePage]);
-  const handleUserPost = (userId) => {};
   return (
     <DashboardLayout>
       <div className={styles.userListPage}>
