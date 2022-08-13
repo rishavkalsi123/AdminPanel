@@ -5,6 +5,10 @@ interface IProps {
   images: string;
   title: string;
   description: string;
+  price: string;
+  discount: string;
+  addCart?: any;
+  removeCart?: any;
 }
 const ProductCard = (props: IProps) => {
   return (
@@ -17,11 +21,31 @@ const ProductCard = (props: IProps) => {
           <div className={styles.productText}>
             <h4>{props.title}</h4>
             <p>{props.description}</p>
+            <div className={styles.rateWrap}>
+              <span className={styles.price}>{`Price - ₹${props.price}`}</span>
+              <span
+                className={styles.discount}
+              >{`${props.discount} % Off`}</span>
+            </div>
           </div>
           <div className={styles.deleteProduct}>
-            <Button variant="outline-danger" size="sm" onClick={() => {}}>
-              Add to cart
-            </Button>
+            {props.addCart ? (
+              <Button
+                variant="outline-danger"
+                size="sm"
+                onClick={props.addCart}
+              >
+                Add to cart
+              </Button>
+            ) : (
+              <Button
+                variant="outline-danger"
+                size="sm"
+                onClick={props.removeCart}
+              >
+                Remove from cart
+              </Button>
+            )}
           </div>
         </div>
       </div>

@@ -63,7 +63,7 @@ const UserList = () => {
                     <td>{user.university}</td>
                     <td>
                       <Link
-                        to={`/user/post/${user.id}`}
+                        to={`/user/${user.id}`}
                         // state={{
                         //   userId: user.id,
                         // }}

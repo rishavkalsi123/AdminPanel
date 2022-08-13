@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
 import ProductCard from "../components/ProductCard/ProductCard";
 import { ProductListCall } from "../services/ApiCalls";
+import { addCart } from "../store/CartSlice";
 import styles from "./styles/ProductList.module.scss";
 const ProductList = () => {
+  const dispatch = useDispatch();
   const [productList, setProductList] = useState([]);
   const [response, setResponse] = useState({});
   const [productLength, setProductLength] = useState(20);
@@ -23,6 +26,10 @@ const ProductList = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+  const AddToCart = (product: object) => {
+    dispatch(addCart(product));
+    console.log("product===>", product);
   };
   useEffect(() => {
     handleProductList();
@@ -55,6 +62,11 @@ const ProductList = () => {
                   images={item.thumbnail}
                   title={item.title}
                   description={item.description}
+                  price={item.price}
+                  discount={item.discountPercentage}
+                  addCart={() => {
+                    AddToCart(item);
+                  }}
                 />
               </Col>
             ))
