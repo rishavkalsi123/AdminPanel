@@ -92,6 +92,9 @@ const Dashboard = () => {
     <DashboardLayout>
       <div className={styles.dashboard}>
         {/* {!loading.productLoading && !loading.userLoading ? ( */}
+        <div>
+          <h1>Welcome</h1>
+        </div>
         <div className={styles.cardWrapper}>
           <Row className="g-5">
             <Col md={6}>

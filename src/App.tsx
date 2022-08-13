@@ -7,7 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import ProductList from "./pages/ProductList";
 import UserList from "./pages/UserList";
-import UserPost from "./pages/UserPost";
+import UserDetail from "./pages/UserDetail";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,7 +19,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/product" element={<ProductList />} />
           <Route path="/user" element={<UserList />} />
-          <Route path="/user/post/:id" element={<UserPost />} />
+          <Route path="/user/post/:id" element={<UserDetail />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { Tab, Tabs } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
 import { SingleUserListCall } from "../services/ApiCalls";
 import styles from "./styles/UserList.module.scss";
-const UserPost = () => {
+const UserDetail = () => {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState<any>([]);
   const { id } = useParams();
   const userID = id;
   const handleSingleUserData = async (id: number) => {
+    setLoading(true);
     try {
       const res = await SingleUserListCall(id);
       console.log("response===>", res);
@@ -25,14 +27,15 @@ const UserPost = () => {
   }, []);
   return (
     <DashboardLayout>
-      <div className={styles.userListPage}>
-        <h1>
-          Hi {userData.firstName} {userData.lastName}
-        </h1>
-        {}
-      </div>
+      {!loading ? (
+        <div className={styles.userListPage}>
+          <h1>{`Hi ${userData.firstName} ${userData.lastName}`}</h1>
+        </div>
+      ) : (
+        <>Loading...</>
+      )}
     </DashboardLayout>
   );
 };
 
-export default UserPost;
+export default UserDetail;

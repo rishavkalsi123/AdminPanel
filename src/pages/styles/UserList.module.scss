@@ -1,14 +1,29 @@
 .userListPage {
-  padding: 2rem;
+  // padding: 2rem;
   h1 {
     font-size: 2rem;
     color: #3a3a3a;
     margin-bottom: 1rem;
   }
   :global(.table) {
+    th {
+      white-space: nowrap;
+    }
     td,
     th {
       padding: 1rem;
+      font-size: 14px;
+      vertical-align: middle;
+      background-color: white;
+      // min-width: 220px;
+    }
+  }
+  .userList {
+    width: 100%;
+    overflow-x: auto;
+    button {
+      white-space: nowrap;
+      font-size: 14px;
     }
   }
   .userName {
@@ -16,7 +31,7 @@
     align-items: center;
     gap: 10px;
     .userImg {
-      background-color: #fff;
+      background-color: #ebebeb;
       border-radius: 50%;
       width: 50px;
       height: 50px;

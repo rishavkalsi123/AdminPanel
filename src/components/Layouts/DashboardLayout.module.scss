@@ -4,13 +4,18 @@
 }
 .DashboardPage {
   min-height: calc(100vh - 56px);
+  padding-left: 260px;
+  @include max(767) {
+    padding-left: 200px;
+  }
 }
 .DashboardSidebar {
   position: fixed;
   top: 56px;
+  left: 0;
   bottom: 0;
-  width: 300px;
-  max-width: 300px;
+  width: 260px;
+  max-width: 260px;
   box-shadow: 4px 0px 14px -5px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   @include max(767) {
@@ -19,8 +24,5 @@
   }
 }
 .DashboardBody {
-  padding-left: 300px;
-  @include max(767) {
-    padding-left: 200px;
-  }
+  padding: 2rem;
 }

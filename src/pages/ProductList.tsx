@@ -52,7 +52,7 @@ const ProductList = () => {
             productList.map((item: any) => (
               <Col lg={6} xl={4} xxl={3} key={item.id}>
                 <ProductCard
-                  images={item.images[0]}
+                  images={item.thumbnail}
                   title={item.title}
                   description={item.description}
                 />

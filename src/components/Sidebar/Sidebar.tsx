@@ -1,31 +1,32 @@
 import React from "react";
-import { ImUsers } from "react-icons/im";
-import { BsFillHandbagFill } from "react-icons/bs";
-import { Link, NavLink } from "react-router-dom";
+import { FiUsers } from "react-icons/fi";
+import { RiShoppingBag3Line } from "react-icons/ri";
+import { GoDashboard } from "react-icons/go";
+import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.scss";
 
 const Sidebar = () => {
   return (
     <div className={styles.sidebarList}>
       <ul>
-        <Link to="/">
+        <NavLink to="/">
           <li>
-            <ImUsers />
+            <GoDashboard />
             Dashboard
           </li>
-        </Link>
-        <Link to="/user">
+        </NavLink>
+        <NavLink to="/user">
           <li>
-            <ImUsers />
+            <FiUsers />
             Users
           </li>
-        </Link>
-        <Link to="/product">
+        </NavLink>
+        <NavLink to="/product">
           <li>
-            <BsFillHandbagFill />
+            <RiShoppingBag3Line />
             Products
           </li>
-        </Link>
+        </NavLink>
       </ul>
     </div>
   );

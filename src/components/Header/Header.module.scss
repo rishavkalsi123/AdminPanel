@@ -13,4 +13,11 @@
     align-items: center;
     justify-content: space-between;
   }
+  :global(.navbar-brand) {
+    padding: 0;
+    line-height: 1;
+    img {
+      height: 40px;
+    }
+  }
 }

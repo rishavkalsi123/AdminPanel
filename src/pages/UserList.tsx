@@ -34,14 +34,15 @@ const UserList = () => {
     <DashboardLayout>
       <div className={styles.userListPage}>
         <h1>All Users</h1>
-        <div>
-          <Table striped bordered hover>
+        <div className={styles.userList}>
+          <Table bordered hover>
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone number</th>
                 <th>university</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -67,7 +68,9 @@ const UserList = () => {
                         //   userId: user.id,
                         // }}
                       >
-                        <button className="btn btn-primary">Check Posts</button>
+                        <button className="btn btn-primary">
+                          Check Profile
+                        </button>
                       </Link>
                     </td>
                   </tr>
