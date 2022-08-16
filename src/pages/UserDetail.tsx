@@ -50,7 +50,7 @@ const UserDetail = () => {
             <UserSingleDetail heading="Age" value={`${userData.age} years`} />
             <UserSingleDetail
               heading="Department"
-              value={userData.company.department}
+              value={userData.company?.department}
             />
             <UserSingleDetail
               heading="University"
@@ -59,7 +59,7 @@ const UserDetail = () => {
             <UserSingleDetail heading="Phone" value={userData.phone} />
             <UserSingleDetail
               heading="Address"
-              value={userData.company.address.address}
+              value={userData.company?.address?.address}
             />
           </div>
         </div>
