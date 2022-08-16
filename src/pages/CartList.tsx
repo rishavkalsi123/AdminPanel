@@ -7,7 +7,7 @@ import styles from "./styles/CartList.module.scss";
 import { removeCart } from "../store/CartSlice";
 const Cart = () => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart);
+  const cartItems = useSelector((state: any) => state.cart);
   useEffect(() => {
     console.log("cartItems====>", cartItems);
   });
