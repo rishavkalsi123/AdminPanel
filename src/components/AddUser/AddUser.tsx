@@ -7,9 +7,24 @@ import { IUser } from "../../interfaces";
 
 interface IProps {
   userEdit: IUser;
+  updateUserList: (updatedUser: IUser) => void;
 }
-const AddUserForm = ({ userEdit }: IProps) => {
+const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
   const [radioValue, setRadioValue] = useState(userEdit ? userEdit.gender : "");
+  const [userChanges, setUserChanges] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    university: "",
+    age: 0,
+    department: "0",
+    birth: "",
+    address: "",
+    gender: "",
+  });
+  // const submitForm = () => {
+  //   handleUpdate(userEdit);
+  // };
   const phoneRegx = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
   const schema = yup.object().shape({
     name: yup.string().required(),
@@ -24,7 +39,7 @@ const AddUserForm = ({ userEdit }: IProps) => {
     age: yup
       .string()
       .min(1, "Minimum 1 char")
-      .max(3, "Maximum 2 char")
+      .max(3, "Maximum 3 char")
       .required(),
     department: yup.string().ensure().required(),
     birth: yup.string().required(),
@@ -36,24 +51,31 @@ const AddUserForm = ({ userEdit }: IProps) => {
     { name: "Female", value: "female" },
     { name: "Other", value: "other" },
   ];
+  useEffect(() => {
+    if (userEdit) {
+      setUserChanges((prev) => ({
+        ...prev,
+        name: `${userEdit?.firstName} ${userEdit?.lastName}`,
+        email: userEdit?.email,
+        phone: userEdit?.phone,
+        university: userEdit?.university,
+        age: userEdit?.age,
+        department: "0",
+        birth: userEdit?.birthDate,
+        address: userEdit?.address.address,
+        gender: userEdit?.gender,
+      }));
+    }
+  }, [userEdit]);
   return (
     <div>
       <Formik
         validationSchema={schema}
-        onSubmit={console.log}
-        initialValues={{
-          name: `${
-            userEdit ? userEdit?.firstName + " " + userEdit?.lastName : ""
-          }`,
-          email: userEdit ? userEdit?.email : "",
-          phone: userEdit ? userEdit?.phone : "",
-          university: userEdit ? userEdit?.university : "",
-          age: userEdit ? userEdit?.age : undefined,
-          department: "0",
-          birth: userEdit ? userEdit?.birthDate : "",
-          address: userEdit ? userEdit?.address.address : "",
-          gender: userEdit ? userEdit?.gender : "",
+        onSubmit={(values) => {
+          updateUserList(values);
         }}
+        initialValues={userChanges}
+        enableReinitialize
       >
         {({
           handleSubmit,
@@ -152,16 +174,12 @@ const AddUserForm = ({ userEdit }: IProps) => {
                       value={radio.value}
                       checked={radioValue === radio.value}
                       onChange={(e) => setRadioValue(e.currentTarget.value)}
-                      isInvalid={!!errors.gender && touched.gender}
                     >
                       {radio.name}
                     </ToggleButton>
                   ))}
                 </ButtonGroup>
               </div>
-              <Form.Control.Feedback type="invalid">
-                {errors.gender}
-              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Birth Date</Form.Label>

@@ -46,6 +46,9 @@ const UserList = () => {
   const handleSearch = (e: any) => {
     setSearchValue(e.target.value);
   };
+  const updateUserList = (user: IUser) => {
+    console.log("hello", user);
+  };
   useEffect(() => {
     setLoading(true);
     handleUserList((activePage - 1) * 20, 20);
@@ -145,7 +148,7 @@ const UserList = () => {
           show={openSidebar}
           handleToggle={handleToggleAddUser}
         >
-          <AddUserForm userEdit={editUser} />
+          <AddUserForm updateUserList={updateUserList} userEdit={editUser} />
         </SidebarLayout>
       </div>
     </DashboardLayout>
