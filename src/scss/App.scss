@@ -1,3 +1,4 @@
+@import "./var";
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -53,5 +54,24 @@ a:hover {
       color: #fff;
       background: transparent;
     }
+  }
+}
+.btn.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+  box-shadow: none;
+  &:active {
+    box-shadow: none;
+  }
+}
+
+.listingHeader {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .searchField {
+    display: flex;
+    align-items: center;
   }
 }

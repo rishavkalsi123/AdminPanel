@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import AddUserForm from "../components/AddUser/AddUser";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
+import SidebarLayout from "../components/Layouts/SidebarLayout";
+import { IUser } from "../interfaces";
 import { UserListCall } from "../services/ApiCalls";
 import styles from "./styles/UserList.module.scss";
 const UserList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [activePage, setActivePage] = useState(1);
   const [userList, setUserList] = useState([]);
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const [editUser, setEditUser] = useState({});
+  const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const handleUserList = async (skip: number, limit: number) => {
     try {
@@ -26,6 +32,20 @@ const UserList = () => {
     let pageNumber = index + 1;
     setActivePage(pageNumber);
   };
+  const handleToggleAddUser = () => {
+    setOpenSidebar(!openSidebar);
+  };
+  const handleAddUser = () => {
+    setEditUser("");
+    handleToggleAddUser();
+  };
+  const handleEditUser = (user: IUser) => {
+    setEditUser(user);
+    handleToggleAddUser();
+  };
+  const handleSearch = (e: any) => {
+    setSearchValue(e.target.value);
+  };
   useEffect(() => {
     setLoading(true);
     handleUserList((activePage - 1) * 20, 20);
@@ -33,74 +53,100 @@ const UserList = () => {
   return (
     <DashboardLayout>
       <div className={styles.userListPage}>
-        <h1>All Users</h1>
-        <div className={styles.userList}>
-          <Table bordered hover>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone number</th>
-                <th>university</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {!loading ? (
-                userList.length &&
-                userList.map((user: any) => (
-                  <tr key={user.id}>
-                    <td>
-                      <div className={styles.userName}>
-                        <span className={styles.userImg}>
-                          <img src={user.image} alt="" />
-                        </span>
-                        <span>{`${user.firstName} ${user.lastName}`}</span>
-                      </div>
-                    </td>
-                    <td>{user.email}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.university}</td>
-                    <td>
-                      <Link
-                        to={`/user/${user.id}`}
-                        // state={{
-                        //   userId: user.id,
-                        // }}
-                      >
-                        <button className="btn btn-primary">
-                          Check Profile
+        <div className="listingHeader">
+          <h1>All Users</h1>
+          <div className="searchField">
+            <input
+              className="form-control"
+              placeholder="search user"
+              value={searchValue}
+              onChange={handleSearch}
+              type="text"
+            />
+            <button className="btn btn-outline-primary">Search</button>
+          </div>
+          <Button onClick={handleAddUser}>Add User +</Button>
+        </div>
+        <div>
+          <div className={styles.userList}>
+            <Table bordered hover>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone number</th>
+                  <th>University</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {!loading ? (
+                  userList.length &&
+                  userList.map((user: any) => (
+                    <tr key={user.id}>
+                      <td>
+                        <div className={styles.userName}>
+                          <span className={styles.userImg}>
+                            <img src={user.image} alt="" />
+                          </span>
+                          <span>{`${user.firstName} ${user.lastName}`}</span>
+                        </div>
+                      </td>
+                      <td>{user.email}</td>
+                      <td>{user.phone}</td>
+                      <td>{user.university}</td>
+                      <td>
+                        <Link to={`/user/${user.id}`}>
+                          <button className="btn btn-primary">
+                            Check Profile
+                          </button>
+                        </Link>
+                        <button
+                          className="btn btn-secondary ms-3"
+                          onClick={() => {
+                            handleEditUser(user);
+                          }}
+                        >
+                          Edit
                         </button>
-                      </Link>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={100}>
+                      <>Loading...</>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={100}>
-                    <>Loading...</>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
+                )}
+              </tbody>
+            </Table>
+          </div>
+          {!loading ? (
+            <ul className={styles.pagination}>
+              {[...Array(totalPages)].map((_, index) => (
+                <li
+                  key={index}
+                  className={index + 1 === activePage ? "active" : ""}
+                  onClick={() => {
+                    handlePagination(index);
+                  }}
+                >
+                  {index + 1}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <></>
+          )}
         </div>
-        {!loading ? (
-          <ul className={styles.pagination}>
-            {[...Array(totalPages)].map((_, index) => (
-              <li
-                className={index + 1 === activePage ? "active" : ""}
-                onClick={() => {
-                  handlePagination(index);
-                }}
-              >
-                {index + 1}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <></>
-        )}
+        <SidebarLayout
+          title={editUser ? "Edit user" : "Add user"}
+          show={openSidebar}
+          handleToggle={handleToggleAddUser}
+        >
+          <AddUserForm userEdit={editUser} />
+        </SidebarLayout>
       </div>
     </DashboardLayout>
   );

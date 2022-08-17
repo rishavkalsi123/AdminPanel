@@ -103,7 +103,9 @@ const Dashboard = () => {
                   <h4>All Products</h4>
                   <div className={styles.listNumber}>
                     <BsFillHandbagFill />
-                    <span>{productData && productData?.total}</span>
+                    <span>
+                      {productData.total === "" ? "00" : productData?.total}
+                    </span>
                   </div>
                 </div>
               </Link>
@@ -114,7 +116,9 @@ const Dashboard = () => {
                   <h4>All Users</h4>
                   <div className={styles.listNumber}>
                     <ImUsers />
-                    <span>{userList && userList?.total}</span>
+                    <span>
+                      {userList.total === "" ? "00" : userList?.total}
+                    </span>
                   </div>
                 </div>
               </Link>
