@@ -1,33 +1,45 @@
 import { Formik } from "formik";
 import * as yup from "yup";
 import React, { useEffect, useState } from "react";
-import { Button, ButtonGroup, Form, ToggleButton } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  Col,
+  Form,
+  Row,
+  ToggleButton,
+} from "react-bootstrap";
 import styles from "./AddUser.module.scss";
-import { IUser } from "../../interfaces";
-
+import { string } from "yup/lib/locale";
+import { IUser, IUserData } from "../../interfaces";
 interface IProps {
-  userEdit: IUser;
-  updateUserList: (updatedUser: IUser) => void;
+  userEdit: IUser | null;
+  updateUserList: (values: IUserData) => void;
+  toggleSidebar: () => void;
 }
-const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
+const AddUserForm = ({ userEdit, updateUserList, toggleSidebar }: IProps) => {
   const [radioValue, setRadioValue] = useState(userEdit ? userEdit.gender : "");
-  const [userChanges, setUserChanges] = useState({
-    name: "",
+  const [userChanges, setUserChanges] = useState<IUserData>({
+    id: undefined,
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     university: "",
-    age: 0,
-    department: "0",
+    age: undefined,
+    blood: "",
     birth: "",
     address: "",
     gender: "",
+    image: "",
   });
   // const submitForm = () => {
   //   handleUpdate(userEdit);
   // };
   const phoneRegx = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
   const schema = yup.object().shape({
-    name: yup.string().required(),
+    firstName: yup.string().required(),
+    lastName: yup.string().required(),
     email: yup.string().email().required(),
     phone: yup
       .string()
@@ -41,10 +53,11 @@ const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
       .min(1, "Minimum 1 char")
       .max(3, "Maximum 3 char")
       .required(),
-    department: yup.string().ensure().required(),
+    blood: yup.string().ensure().required(),
     birth: yup.string().required(),
-    address: yup.string().ensure().required(),
+    address: yup.string().required(),
     gender: yup.string().ensure().required(),
+    image: yup.string().ensure().required(),
   });
   const Gender = [
     { name: "Male", value: "male" },
@@ -53,29 +66,32 @@ const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
   ];
   useEffect(() => {
     if (userEdit) {
-      setUserChanges((prev) => ({
-        ...prev,
-        name: `${userEdit?.firstName} ${userEdit?.lastName}`,
+      setUserChanges({
+        id: userEdit?.id,
+        firstName: userEdit?.firstName,
+        lastName: userEdit?.lastName,
         email: userEdit?.email,
         phone: userEdit?.phone,
         university: userEdit?.university,
         age: userEdit?.age,
-        department: "0",
-        birth: userEdit?.birthDate,
-        address: userEdit?.address.address,
+        blood: "0",
+        birth: userEdit?.birthDate || "",
+        address: userEdit?.address?.address,
         gender: userEdit?.gender,
-      }));
+        image: userEdit?.image,
+      });
     }
   }, [userEdit]);
+
   return (
     <div>
       <Formik
         validationSchema={schema}
-        onSubmit={(values) => {
+        onSubmit={(values: IUserData) => {
           updateUserList(values);
         }}
         initialValues={userChanges}
-        enableReinitialize
+        enableReinitialize={userEdit ? true : false}
       >
         {({
           handleSubmit,
@@ -85,22 +101,43 @@ const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
           touched,
           isValid,
           errors,
+          setFieldValue,
         }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter name"
-                name="name"
-                value={values.name}
-                onChange={handleChange}
-                isInvalid={!!errors.name && touched.name}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.name}
-              </Form.Control.Feedback>
-            </Form.Group>
+            <Row className="g-3">
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>First name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter name"
+                    name="firstName"
+                    value={values.firstName}
+                    onChange={handleChange}
+                    isInvalid={!!errors.firstName && touched.firstName}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.firstName}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Last name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter name"
+                    name="lastName"
+                    value={values.lastName}
+                    onChange={handleChange}
+                    isInvalid={!!errors.lastName && touched.lastName}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.lastName}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -173,13 +210,19 @@ const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
                       name="gender"
                       value={radio.value}
                       checked={radioValue === radio.value}
-                      onChange={(e) => setRadioValue(e.currentTarget.value)}
+                      onChange={(e) => {
+                        setFieldValue("gender", e.currentTarget.value);
+                        setRadioValue(e.currentTarget.value);
+                      }}
                     >
                       {radio.name}
                     </ToggleButton>
                   ))}
                 </ButtonGroup>
               </div>
+              <Form.Control.Feedback type="invalid">
+                {errors.gender}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Birth Date</Form.Label>
@@ -198,10 +241,10 @@ const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
             <Form.Group className="mb-3">
               <Form.Label>Blood Group</Form.Label>
               <Form.Select
-                name="department"
+                name="blood"
                 onChange={handleChange}
-                value={values.department}
-                isInvalid={!!errors.department && touched.department}
+                value={values.blood}
+                isInvalid={!!errors.blood && touched.blood}
               >
                 <option value="1">A-</option>
                 <option value="2">A+</option>
@@ -213,7 +256,7 @@ const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
                 <option value="8">O+</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">
-                {errors.department}
+                {errors.blood}
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
@@ -231,7 +274,11 @@ const AddUserForm = ({ userEdit, updateUserList }: IProps) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={isValid ? toggleSidebar : ""}
+            >
               Submit
             </Button>
           </Form>

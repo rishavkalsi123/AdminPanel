@@ -4,16 +4,17 @@ import { Link } from "react-router-dom";
 import AddUserForm from "../components/AddUser/AddUser";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
 import SidebarLayout from "../components/Layouts/SidebarLayout";
-import { IUser } from "../interfaces";
-import { UserListCall } from "../services/ApiCalls";
+import { IUser, IUserData } from "../interfaces";
+import { UserListCall, UserSearch } from "../services/ApiCalls";
 import styles from "./styles/UserList.module.scss";
 const UserList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [activePage, setActivePage] = useState(1);
   const [userList, setUserList] = useState([]);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const [editUser, setEditUser] = useState({});
+  const [editUser, setEditUser] = useState<IUser | null>();
   const [searchValue, setSearchValue] = useState("");
+  const [searchedUsers, setSearchedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const handleUserList = async (skip: number, limit: number) => {
     try {
@@ -36,19 +37,44 @@ const UserList = () => {
     setOpenSidebar(!openSidebar);
   };
   const handleAddUser = () => {
-    setEditUser("");
+    setEditUser(null);
     handleToggleAddUser();
   };
-  const handleEditUser = (user: IUser) => {
-    setEditUser(user);
+  const handleEditUser = (values: IUser) => {
+    setEditUser(values);
     handleToggleAddUser();
+  };
+  const callSearchApi = async () => {
+    try {
+      console.log(searchValue);
+      const res = await UserSearch(searchValue);
+      setSearchedUsers(res.data.users);
+    } catch (err) {}
   };
   const handleSearch = (e: any) => {
     setSearchValue(e.target.value);
   };
-  const updateUserList = (user: IUser) => {
-    console.log("hello", user);
+  useEffect(() => {
+    if (searchValue) {
+      callSearchApi();
+    } else {
+      setSearchedUsers([]);
+    }
+  }, [searchValue]);
+  const updateUserList = (user: IUserData) => {
+    const usersCopy = userList;
+    const userIndex = usersCopy.findIndex((item: IUser) => item.id == user.id);
+    if (userIndex !== -1) {
+      usersCopy[userIndex] = {
+        ...userList[userIndex],
+        ...user,
+      };
+    } else {
+      usersCopy.push(user);
+    }
+    setUserList([...usersCopy]);
   };
+  console.log("newUserList", userList);
   useEffect(() => {
     setLoading(true);
     handleUserList((activePage - 1) * 20, 20);
@@ -66,7 +92,22 @@ const UserList = () => {
               onChange={handleSearch}
               type="text"
             />
-            <button className="btn btn-outline-primary">Search</button>
+            {searchedUsers.length ? (
+              <div className="searchList">
+                <ul>
+                  {searchedUsers.map((userSingle: IUser) => (
+                    <Link to={`/user/${userSingle.id}`} key={userSingle.id}>
+                      <li>
+                        <h5>{`${userSingle.firstName} ${userSingle.lastName}`}</h5>
+                        <span>{userSingle.email}</span>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           <Button onClick={handleAddUser}>Add User +</Button>
         </div>
@@ -117,9 +158,7 @@ const UserList = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={100}>
-                      <>Loading...</>
-                    </td>
+                    <td colSpan={100}>Loading...</td>
                   </tr>
                 )}
               </tbody>
@@ -148,7 +187,11 @@ const UserList = () => {
           show={openSidebar}
           handleToggle={handleToggleAddUser}
         >
-          <AddUserForm updateUserList={updateUserList} userEdit={editUser} />
+          <AddUserForm
+            updateUserList={updateUserList}
+            userEdit={editUser}
+            toggleSidebar={handleToggleAddUser}
+          />
         </SidebarLayout>
       </div>
     </DashboardLayout>

@@ -73,5 +73,43 @@ a:hover {
   .searchField {
     display: flex;
     align-items: center;
+    border-radius: 4px;
+    width: 350px;
+    position: relative;
+    input {
+      border: 1px solid #ccc;
+      border-radius: 0;
+    }
+    button {
+      border: none;
+    }
+    .searchList {
+      width: 100%;
+      position: absolute;
+      top: 100%;
+      background-color: #fff;
+      box-shadow: 0 0 10px -3px rgba(0, 0, 0, 0.4);
+      max-height: 290px;
+      overflow-y: auto;
+      ul {
+        list-style: none;
+        li {
+          h5 {
+            margin: 0;
+            font-size: 1rem;
+          }
+          span {
+            font-size: 12px;
+            display: block;
+          }
+          padding: 10px;
+          border-bottom: 1px solid #ededed;
+          cursor: pointer;
+          &:hover {
+            background-color: #ededed;
+          }
+        }
+      }
+    }
   }
 }

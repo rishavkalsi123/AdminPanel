@@ -16,6 +16,7 @@ export const UserListCall = (skip: number = 0, limit: number = 0) => {
     });
 };
 export const UserSearch = (query: string) => {
+  console.log("query===>", query);
   return axios
     .get(`${API_BASE_URL}/users/search?q=${query}`)
     .then((response) => {

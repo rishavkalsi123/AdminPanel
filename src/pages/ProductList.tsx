@@ -38,7 +38,35 @@ const ProductList = () => {
   return (
     <DashboardLayout>
       <div className={styles.ProductListPage}>
-        <h1>All Products</h1>
+        <div className="listingHeader">
+          <h1>All Products</h1>
+          <div className="searchField">
+            <input
+              className="form-control"
+              placeholder="search user"
+              // value={searchValue}
+              // onChange={handleSearch}
+              type="text"
+            />
+            {/* {searchedUsers.length ? (
+              <div className="searchList">
+                <ul>
+                  {searchedUsers.map((userSingle: IUser) => (
+                    <Link to={`/user/${userSingle.id}`} key={userSingle.id}>
+                      <li>
+                        <h5>{`${userSingle.firstName} ${userSingle.lastName}`}</h5>
+                        <span>{userSingle.email}</span>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <></>
+            )} */}
+          </div>
+          <Button>Add Product +</Button>
+        </div>
         <Row className="g-4">
           {productsFromApi && status === "idle" ? (
             productsFromApi.map((item: any) => (
