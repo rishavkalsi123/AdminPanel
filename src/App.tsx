@@ -12,6 +12,7 @@ import Cart from "./pages/CartList";
 import store from "./store/store";
 import { Provider } from "react-redux";
 import ProductDetail from "./pages/ProductDetail";
+import PostsList from "./pages/PostsList";
 function App() {
   return (
     <div className="App">
@@ -20,9 +21,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/product" element={<ProductList />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/user" element={<UserList />} />
             <Route path="/user/:id" element={<UserDetail />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/posts" element={<PostsList />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </BrowserRouter>

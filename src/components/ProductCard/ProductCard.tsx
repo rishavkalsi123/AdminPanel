@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { IProductData } from "../../interfaces";
 import styles from "./ProductCard.module.scss";
 interface IProps {
-  images: string;
-  title: string;
-  description: string;
-  price: string;
-  discount: string;
+  product: IProductData;
   addCart?: any;
+  editCard?: any;
   removeCart?: any;
 }
 const ProductCard = (props: IProps) => {
@@ -15,28 +13,40 @@ const ProductCard = (props: IProps) => {
     <div className={styles.singleProduct}>
       <div className={styles.singleProduct_inner}>
         <div className={styles.singleProduct_img}>
-          <img src={props.images} alt="" />
+          <img src={props.product.thumbnail} alt="" />
         </div>
         <div className={styles.productContent}>
           <div className={styles.productText}>
-            <h4>{props.title}</h4>
-            <p>{props.description}</p>
+            <h4>{props.product.title}</h4>
+            <p>{props.product.description}</p>
             <div className={styles.rateWrap}>
-              <span className={styles.price}>{`Price - ₹${props.price}`}</span>
+              <span
+                className={styles.price}
+              >{`Price - ₹${props.product.price}`}</span>
               <span
                 className={styles.discount}
-              >{`${props.discount} % Off`}</span>
+              >{`${props.product.discountPercentage} % Off`}</span>
             </div>
           </div>
           <div className={styles.deleteProduct}>
             {props.addCart ? (
-              <Button
-                variant="outline-danger"
-                size="sm"
-                onClick={props.addCart}
-              >
-                Add to cart
-              </Button>
+              <>
+                <Button
+                  className="me-2"
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={props.editCard}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={props.addCart}
+                >
+                  Add to cart
+                </Button>
+              </>
             ) : (
               <Button
                 variant="outline-danger"

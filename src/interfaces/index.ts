@@ -38,3 +38,16 @@ export interface IUserData {
   gender: string;
   image: string;
 }
+
+export interface IProductData {
+  id?: number;
+  title?: string;
+  description?: string;
+  price: number;
+  discountPercentage: number;
+  rating?: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+}

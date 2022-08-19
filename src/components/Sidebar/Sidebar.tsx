@@ -29,6 +29,12 @@ const Sidebar = () => {
             Products
           </li>
         </NavLink>
+        <NavLink to="/posts">
+          <li>
+            <RiShoppingBag3Line />
+            Posts
+          </li>
+        </NavLink>
         <NavLink to="/cart">
           <li>
             <RiShoppingBag3Line />
