@@ -9,14 +9,15 @@ import ProductCard from "../components/ProductCard/ProductCard";
 import { IProductData } from "../interfaces";
 import { ProductSearch } from "../services/ApiCalls";
 import { addCart } from "../store/CartSlice";
-import { setProducts } from "../store/ProductSlice";
+import { setProducts, setStatus } from "../store/ProductSlice";
 import { fetchProducts } from "../store/ProductSlice";
 import styles from "./styles/ProductList.module.scss";
 const ProductList = () => {
   const dispatch = useDispatch();
-  const productsFromApi = useSelector(
-    (state: any) => state.product.data.products
-  );
+  const productsFromApi = useSelector((state: any) => state.product.data);
+  useEffect(() => {
+    console.log("productsFromApi ==> ", productsFromApi);
+  }, [productsFromApi]);
   const status = useSelector((state: any) => state.product.status);
   const [productLength, setProductLength] = useState(20);
   const [searchValue, setSearchValue] = useState("");
@@ -31,7 +32,7 @@ const ProductList = () => {
   const AddToCart = (product: IProductData) => {
     dispatch(addCart(product));
   };
-  const handleAddProduct = (product: IProductData) => {
+  const handleAddProduct = () => {
     setEditProduct(null);
     handleToggleSidebar();
   };
@@ -56,26 +57,20 @@ const ProductList = () => {
     };
   });
   const handleUpdateProduct = (product: IProductData) => {
-    const productCopy = productsFromApi;
-    try {
-      const userIndex = productCopy.findIndex(
-        (item: IProductData) => item.id == product.id
-      );
-      const value = productsFromApi[userIndex];
-      if (userIndex !== -1) {
-        let updatedValue = productCopy[userIndex];
-        updatedValue = {
-          ...updatedValue,
-          ...product,
-        };
-        productCopy[userIndex] = updatedValue;
-      } else {
-        dispatch(setProducts([...productCopy]));
-      }
-    } catch (err) {
-      console.log("errrr", err);
+    const userIndex = productsFromApi.findIndex(
+      (item: IProductData) => item.id == product.id
+    );
+    const newList = [...productsFromApi];
+    if (userIndex !== -1) {
+      const updatedValue = {
+        ...productsFromApi[userIndex],
+        ...product,
+      };
+      newList[userIndex] = updatedValue;
+      dispatch(setProducts(newList));
+    } else {
+      // dispatch(setProducts([...productCopy]));
     }
-    dispatch(setProducts([...productCopy]));
   };
   const callSearchApi = async () => {
     try {
@@ -148,8 +143,12 @@ const ProductList = () => {
             ))
           ) : status === "error" ? (
             <Col>Something went wrong.</Col>
-          ) : (
+          ) : status === "loading" ? (
             <Col>Loading...</Col>
+          ) : status === "idle" ? (
+            "success"
+          ) : (
+            "hello"
           )}
         </Row>
         {/* <h2 className={`${styles.loadMore} ${loadMore ? styles.show : ""}`}>

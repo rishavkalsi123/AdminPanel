@@ -13,7 +13,7 @@ const productSlice = createSlice({
   name: "product",
   initialState: {
     data: [],
-    status: STATUSES.IDLE,
+    status: STATUSES.LOADING,
   },
   reducers: {
     setProducts(state: any, action: any) {
@@ -38,7 +38,8 @@ export function fetchProducts(limit: number = 20) {
       return await axios
         .get(`${API_BASE_URL}/products?limit=${limit}`)
         .then((response) => {
-          dispatch(setProducts(response.data));
+          console.log("cdcndjcnjdc", response.data);
+          dispatch(setProducts(response.data.products));
           dispatch(setStatus(STATUSES.IDLE));
         })
         .catch((err) => {
