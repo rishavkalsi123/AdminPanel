@@ -42,8 +42,8 @@ const AddProductForm = ({
     discountPercentage: yup.number().required(),
     stock: yup.string().required(),
     brand: yup.string().ensure().required(),
-    category: yup.string().required(),
-    thumbnail: yup.string().required(),
+    // category: yup.string().required(),
+    // thumbnail: yup.string().required(),
   });
   useEffect(() => {
     if (productEdit) {

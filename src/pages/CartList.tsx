@@ -25,11 +25,7 @@ const Cart = () => {
             cartItems.map((item: any) => (
               <Col lg={6} xl={4} xxl={3} key={item.id}>
                 <ProductCard
-                  images={item.thumbnail}
-                  title={item.title}
-                  description={item.description}
-                  price={item.price}
-                  discount={item.discountPercentage}
+                  product={item}
                   removeCart={() => {
                     removeCartItem(item.id);
                   }}

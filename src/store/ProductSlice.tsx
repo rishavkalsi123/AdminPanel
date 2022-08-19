@@ -19,12 +19,15 @@ const productSlice = createSlice({
     setProducts(state: any, action: any) {
       state.data = action.payload;
     },
+    addProduct(state: any, action: any) {
+      state.data.push(action.payload);
+    },
     setStatus(state: any, action: any) {
       state.status = action.payload;
     },
   },
 });
-export const { setProducts, setStatus } = productSlice.actions;
+export const { setProducts, setStatus, addProduct } = productSlice.actions;
 export default productSlice.reducer;
 
 // ====== thunks =======
@@ -38,7 +41,6 @@ export function fetchProducts(limit: number = 20) {
       return await axios
         .get(`${API_BASE_URL}/products?limit=${limit}`)
         .then((response) => {
-          console.log("cdcndjcnjdc", response.data);
           dispatch(setProducts(response.data.products));
           dispatch(setStatus(STATUSES.IDLE));
         })

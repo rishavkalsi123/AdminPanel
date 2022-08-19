@@ -9,15 +9,12 @@ import ProductCard from "../components/ProductCard/ProductCard";
 import { IProductData } from "../interfaces";
 import { ProductSearch } from "../services/ApiCalls";
 import { addCart } from "../store/CartSlice";
-import { setProducts, setStatus } from "../store/ProductSlice";
+import { addProduct, setProducts, setStatus } from "../store/ProductSlice";
 import { fetchProducts } from "../store/ProductSlice";
 import styles from "./styles/ProductList.module.scss";
 const ProductList = () => {
   const dispatch = useDispatch();
   const productsFromApi = useSelector((state: any) => state.product.data);
-  useEffect(() => {
-    console.log("productsFromApi ==> ", productsFromApi);
-  }, [productsFromApi]);
   const status = useSelector((state: any) => state.product.status);
   const [productLength, setProductLength] = useState(20);
   const [searchValue, setSearchValue] = useState("");
@@ -69,7 +66,8 @@ const ProductList = () => {
       newList[userIndex] = updatedValue;
       dispatch(setProducts(newList));
     } else {
-      // dispatch(setProducts([...productCopy]));
+      console.log("Hello we are diving into else");
+      dispatch(addProduct(product));
     }
   };
   const callSearchApi = async () => {
@@ -90,7 +88,7 @@ const ProductList = () => {
       setSearchedProducts([]);
     }
   }, [searchValue]);
-
+  console.log("product listin gpage");
   return (
     <DashboardLayout>
       <div className={styles.ProductListPage}>
