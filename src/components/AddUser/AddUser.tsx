@@ -20,13 +20,13 @@ interface IProps {
 const AddUserForm = ({ userEdit, updateUserList, toggleSidebar }: IProps) => {
   const [radioValue, setRadioValue] = useState(userEdit ? userEdit.gender : "");
   const [userChanges, setUserChanges] = useState<IUserData>({
-    id: undefined,
+    id: NaN,
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
     university: "",
-    age: undefined,
+    age: NaN,
     blood: "",
     birth: "",
     address: "",

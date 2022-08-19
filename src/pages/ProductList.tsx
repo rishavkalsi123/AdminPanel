@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
 import ProductCard from "../components/ProductCard/ProductCard";
+import { ProductSearch } from "../services/ApiCalls";
 import { addCart } from "../store/CartSlice";
 import { fetchProducts } from "../store/ProductSlice";
 import styles from "./styles/ProductList.module.scss";
@@ -12,8 +14,9 @@ const ProductList = () => {
     (state: any) => state.product.data.products
   );
   const status = useSelector((state: any) => state.product.status);
-  // const [productList, setProductList] = useState([]);
   const [productLength, setProductLength] = useState(20);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchedProducts, setSearchedProducts] = useState([]);
   const AddToCart = (product: object) => {
     dispatch(addCart(product));
     console.log("product===>", product);
@@ -35,6 +38,24 @@ const ProductList = () => {
     };
   });
 
+  const callSearchApi = async () => {
+    try {
+      const res = await ProductSearch(searchValue);
+      setSearchedProducts(res.data.products);
+    } catch (err) {}
+  };
+  const handleSearch = (e: any) => {
+    setSearchValue(e.target.value);
+  };
+  useEffect(() => {
+    if (searchValue) {
+      callSearchApi();
+    } else {
+      setSearchedProducts([]);
+    }
+  }, [searchValue]);
+  console.log("searchedProducts===>", searchedProducts);
+
   return (
     <DashboardLayout>
       <div className={styles.ProductListPage}>
@@ -44,18 +65,21 @@ const ProductList = () => {
             <input
               className="form-control"
               placeholder="search user"
-              // value={searchValue}
-              // onChange={handleSearch}
+              value={searchValue}
+              onChange={handleSearch}
               type="text"
             />
-            {/* {searchedUsers.length ? (
+            {searchedProducts ? (
               <div className="searchList">
                 <ul>
-                  {searchedUsers.map((userSingle: IUser) => (
-                    <Link to={`/user/${userSingle.id}`} key={userSingle.id}>
+                  {searchedProducts.map((productSingle) => (
+                    <Link
+                      to={`/product/${productSingle.id}`}
+                      key={productSingle.id}
+                    >
                       <li>
-                        <h5>{`${userSingle.firstName} ${userSingle.lastName}`}</h5>
-                        <span>{userSingle.email}</span>
+                        <h5>{productSingle.title} </h5>
+                        <span>{productSingle.description}</span>
                       </li>
                     </Link>
                   ))}
@@ -63,7 +87,7 @@ const ProductList = () => {
               </div>
             ) : (
               <></>
-            )} */}
+            )}
           </div>
           <Button>Add Product +</Button>
         </div>

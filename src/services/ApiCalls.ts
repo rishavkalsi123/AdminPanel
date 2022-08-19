@@ -15,8 +15,14 @@ export const UserListCall = (skip: number = 0, limit: number = 0) => {
       return response;
     });
 };
+export const ProductSearch = (query: string) => {
+  return axios
+    .get(`${API_BASE_URL}/products/search?q=${query}`)
+    .then((response) => {
+      return response;
+    });
+};
 export const UserSearch = (query: string) => {
-  console.log("query===>", query);
   return axios
     .get(`${API_BASE_URL}/users/search?q=${query}`)
     .then((response) => {

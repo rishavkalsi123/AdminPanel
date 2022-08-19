@@ -11,6 +11,7 @@ import UserDetail from "./pages/UserDetail";
 import Cart from "./pages/CartList";
 import store from "./store/store";
 import { Provider } from "react-redux";
+import ProductDetail from "./pages/ProductDetail";
 function App() {
   return (
     <div className="App">
@@ -21,6 +22,7 @@ function App() {
             <Route path="/product" element={<ProductList />} />
             <Route path="/user" element={<UserList />} />
             <Route path="/user/:id" element={<UserDetail />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </BrowserRouter>
