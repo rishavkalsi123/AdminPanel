@@ -10,7 +10,7 @@ const Cart = () => {
   const cartItems = useSelector((state: any) => state.cart);
   useEffect(() => {
     console.log("cartItems====>", cartItems);
-  });
+  }, [cartItems]);
   const removeCartItem = (item: number) => {
     dispatch(removeCart(item));
     console.log("item==========>", item);

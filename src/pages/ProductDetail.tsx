@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Tab, Tabs } from "react-bootstrap";
+import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
-import { SingleUserListCall } from "../services/ApiCalls";
-import styles from "./styles/UserDetail.module.scss";
+import { SingleProductListCall } from "../services/ApiCalls";
+import styles from "./styles/ProductDetail.module.scss";
 
 const ProductDetail = () => {
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState<any>([]);
+  const [productData, setProductData] = useState<any>([]);
   const { id } = useParams();
-  const userID = id;
-  const handleSingleUserData = async (id: number) => {
+  const productId = id;
+  const handleSingleProductData = async (id: number) => {
     setLoading(true);
     try {
-      const res = await SingleUserListCall(id);
+      const res = await SingleProductListCall(id);
       console.log("response===>", res);
-      setUserData(res.data);
+      setProductData(res.data);
       if (res.status === 200) {
         setLoading(false);
       }
@@ -24,44 +24,29 @@ const ProductDetail = () => {
     }
   };
   useEffect(() => {
-    handleSingleUserData(Number(userID));
+    handleSingleProductData(Number(productId));
   }, []);
   return (
     <DashboardLayout>
       {!loading ? (
-        <div className={styles.userDetailPage}>
-          <div className={styles.userProfile}>
-            <img src={userData.image} alt="image" />
-            <div className={styles.userName}>
-              <h4>{`${userData.firstName} ${userData.lastName}`}</h4>
-              <p>{userData.email}</p>
-              <button className="btn btn-secondary btn-sm">View posts</button>
+        <div className={styles.page}>
+          <Container>
+            <div className={styles.page_inner}>
+              <Row className="g-4">
+                <Col md={4}>
+                  <div className={styles.productImg}>
+                    <img src={productData.thumbnail} alt="" />
+                  </div>
+                </Col>
+                <Col md={7}>
+                  <div className={styles.productHeading}>
+                    <h3>{productData.title}</h3>
+                    <p>{productData.description}</p>
+                  </div>
+                </Col>
+              </Row>
             </div>
-          </div>
-          <div className={styles.userDetail}>
-            <UserSingleDetail heading="Age" value={`${userData.age} years`} />
-            <UserSingleDetail heading="Gender" value={userData.gender} />
-            <UserSingleDetail heading="Phone" value={userData.phone} />
-            <UserSingleDetail heading="Birth Date" value={userData.birthDate} />
-            <UserSingleDetail
-              heading="Blood Group"
-              value={userData.bloodGroup}
-            />
-            <UserSingleDetail heading="Age" value={`${userData.age} years`} />
-            <UserSingleDetail
-              heading="Department"
-              value={userData.company?.department}
-            />
-            <UserSingleDetail
-              heading="University"
-              value={userData.university}
-            />
-            <UserSingleDetail heading="Phone" value={userData.phone} />
-            <UserSingleDetail
-              heading="Address"
-              value={userData.company?.address?.address}
-            />
-          </div>
+          </Container>
         </div>
       ) : (
         <div>Loading...</div>
@@ -72,16 +57,4 @@ const ProductDetail = () => {
 
 // ==================== Internal components ===============
 
-interface IUser {
-  heading: string;
-  value: string;
-}
-function UserSingleDetail({ heading, value }: IUser) {
-  return (
-    <div className={styles.userDetail_single}>
-      <h6 className={styles.heading}>{heading}</h6>
-      <span className={styles.detail}>{value}</span>
-    </div>
-  );
-}
 export default ProductDetail;

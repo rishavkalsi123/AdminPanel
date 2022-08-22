@@ -1,4 +1,18 @@
+.filterWrap {
+  display: flex;
+}
+.filterList {
+  padding: 3rem 1rem;
+  width: 160px;
+  flex-shrink: 0;
+  .singleField {
+    input[type="number"] {
+      width: 100%;
+    }
+  }
+}
 .ProductListPage {
+  flex-grow: 1;
   h1 {
     font-size: 2rem;
     color: #3a3a3a;

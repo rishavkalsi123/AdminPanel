@@ -19,6 +19,7 @@ export const ProductSearch = (query: string) => {
   return axios
     .get(`${API_BASE_URL}/products/search?q=${query}`)
     .then((response) => {
+      console.log(response);
       return response;
     });
 };
@@ -31,6 +32,11 @@ export const UserSearch = (query: string) => {
 };
 export const SingleUserListCall = (id: number = 0) => {
   return axios.get(`${API_BASE_URL}/users/${id}`).then((response) => {
+    return response;
+  });
+};
+export const SingleProductListCall = (id: number = 0) => {
+  return axios.get(`${API_BASE_URL}/products/${id}`).then((response) => {
     return response;
   });
 };
