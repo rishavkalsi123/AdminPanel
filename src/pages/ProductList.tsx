@@ -25,7 +25,7 @@ const ProductList = () => {
   const [product, setProduct] = useState<any>([]);
   const [priceValues, setPriceValues] = useState({
     min: 0,
-    max: 100,
+    max: 2000,
   });
 
   const handleToggleSidebar = () => {
@@ -87,18 +87,20 @@ const ProductList = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
-  const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value, "targeted value");
+  const handleSorting = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSortingValue(e.target.value);
   };
+
+  const handlePriceValues = (e) => {
+    setPriceValues({ ...priceValues, [e.target.name]: e.target.value });
+  };
   useEffect(() => {
-    const newValue = [...product];
+    const newValue = [...productsFromApi];
     if (sortingValue === "name") {
       newValue.sort(function (a: any, b: any) {
         if (a.title.toLowerCase() < b.title.toLowerCase()) {
           return -1;
-        }
-        if (a.title.toLowerCase() > b.title.toLowerCase()) {
+        } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
           return 1;
         }
         return 0;
@@ -112,28 +114,31 @@ const ProductList = () => {
         return a.discountPercentage - b.discountPercentage;
       });
     } else {
-      setProduct(productsFromApi);
-      return;
+      newValue.sort(function (a: any, b: any) {
+        return a.id - b.id;
+      });
     }
     setProduct(newValue);
-  }, [sortingValue, productsFromApi]);
-
+    const priceFilter = newValue.filter(
+      (item) => item.price >= priceValues.min && item.price <= priceValues.max
+    );
+    setProduct(priceFilter);
+  }, [sortingValue, priceValues, productsFromApi]);
+  // useEffect(() => {
+  // }, []);
   useEffect(() => {
     if (searchValue) {
-      callSearchApi();
+      const timerFunction = setTimeout(() => {
+        callSearchApi();
+      }, 1000);
+      return () => {
+        clearTimeout(timerFunction);
+      };
     } else {
       setSearchedProducts([]);
     }
   }, [searchValue]);
-  const handlePriceValues = (e) => {
-    setPriceValues({ ...priceValues, [e.target.name]: e.target.value });
-  };
-  useEffect(() => {
-    const priceFilter = productsFromApi.filter(
-      (item) => item.price >= priceValues.min && item.price <= priceValues.max
-    );
-    setProduct(priceFilter);
-  }, [priceValues, productsFromApi]);
+
   return (
     <DashboardLayout>
       <div className={styles.filterWrap}>
@@ -146,44 +151,54 @@ const ProductList = () => {
                 name="sorting"
                 value="name"
                 label="By name"
-                onChange={handlePrice}
+                onChange={handleSorting}
               />
               <Form.Check
                 type="radio"
                 name="sorting"
                 value="price"
                 label="By price"
-                onChange={handlePrice}
+                onChange={handleSorting}
               />
               <Form.Check
                 type="radio"
                 name="sorting"
                 value="discount"
                 label="By Discount"
-                onChange={handlePrice}
+                onChange={handleSorting}
               />
               <Form.Check
                 type="radio"
                 name="sorting"
                 value=""
                 label="None"
-                onChange={handlePrice}
+                onChange={handleSorting}
               />
             </div>
             <div className={styles.singleField}>
               <h5>Filter Price</h5>
-              <input
-                type="number"
-                value={priceValues.min}
-                name="min"
-                onChange={handlePriceValues}
-              />
-              <input
-                type="number"
-                value={priceValues.max}
-                name="max"
-                onChange={handlePriceValues}
-              />
+              <div className={styles.priceFilter}>
+                <span>
+                  <label htmlFor="">Min</label>
+                  <input
+                    type="number"
+                    value={priceValues.min}
+                    name="min"
+                    min={0}
+                    onChange={handlePriceValues}
+                  />
+                </span>
+                <span>
+                  <label htmlFor="">Max</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={priceValues.max}
+                    name="max"
+                    onChange={handlePriceValues}
+                  />
+                </span>
+              </div>
             </div>
           </Form>
         </div>
@@ -220,10 +235,10 @@ const ProductList = () => {
             </div>
             <Button onClick={handleAddProduct}>Add Product +</Button>
           </div>
-          <Row className="g-4">
-            {product && status === "idle" ? (
+          {product && status === "idle" ? (
+            product.length ? (
               product.map((item: any) => (
-                <Col lg={6} xl={4} xxl={3} key={item.id}>
+                <div key={item.id}>
                   <ProductCard
                     product={item}
                     addCart={() => {
@@ -233,16 +248,18 @@ const ProductList = () => {
                       handleEditProduct(item);
                     }}
                   />
-                </Col>
+                </div>
               ))
-            ) : status === "error" ? (
-              <Col>Something went wrong.</Col>
-            ) : status === "loading" ? (
-              <Col>Loading...</Col>
             ) : (
-              "hello"
-            )}
-          </Row>
+              "No data found"
+            )
+          ) : status === "error" ? (
+            <Col>Something went wrong.</Col>
+          ) : status === "loading" ? (
+            <Col>Loading...</Col>
+          ) : (
+            "hello"
+          )}
           {/* <h2 className={`${styles.loadMore} ${loadMore ? styles.show : ""}`}>
           Loading....
         </h2> */}

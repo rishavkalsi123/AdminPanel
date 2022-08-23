@@ -56,7 +56,10 @@ const UserList = () => {
   };
   useEffect(() => {
     if (searchValue) {
-      callSearchApi();
+      const timerFunction = setTimeout(() => {
+        callSearchApi();
+      }, 1000);
+      return () => clearTimeout(timerFunction);
     } else {
       setSearchedUsers([]);
     }
@@ -74,7 +77,6 @@ const UserList = () => {
     }
     setUserList([...usersCopy]);
   };
-  console.log("newUserList", userList);
   useEffect(() => {
     setLoading(true);
     handleUserList((activePage - 1) * 20, 20);

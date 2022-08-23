@@ -20,22 +20,18 @@ const Cart = () => {
     <DashboardLayout>
       <div className={styles.ProductListPage}>
         <h1>All cart items</h1>
-        <Row className="g-4">
-          {cartItems.length ? (
-            cartItems.map((item: any) => (
-              <Col lg={6} xl={4} xxl={3} key={item.id}>
-                <ProductCard
-                  product={item}
-                  removeCart={() => {
-                    removeCartItem(item.id);
-                  }}
-                />
-              </Col>
-            ))
-          ) : (
-            <div>Your cart is empty</div>
-          )}
-        </Row>
+        {cartItems.length ? (
+          cartItems.map((item: any) => (
+            <ProductCard
+              product={item}
+              removeCart={() => {
+                removeCartItem(item.id);
+              }}
+            />
+          ))
+        ) : (
+          <div>Your cart is empty</div>
+        )}
       </div>
     </DashboardLayout>
   );
