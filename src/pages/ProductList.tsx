@@ -260,9 +260,6 @@ const ProductList = () => {
           ) : (
             "hello"
           )}
-          {/* <h2 className={`${styles.loadMore} ${loadMore ? styles.show : ""}`}>
-          Loading....
-        </h2> */}
           <SidebarLayout
             title={`${editProduct ? "Edit Products" : "Add Products"}`}
             show={openSidebar}

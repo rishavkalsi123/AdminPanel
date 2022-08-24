@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AnyListenerPredicate } from "@reduxjs/toolkit/dist/listenerMiddleware/types";
-import { object } from "yup";
 
 const cartSlice = createSlice({
   name: "cart",

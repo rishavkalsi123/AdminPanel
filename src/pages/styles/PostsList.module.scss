@@ -1,0 +1,21 @@
+@import "../../scss/mixins";
+@import "../../scss/var";
+
+.postPage {
+}
+.postCard {
+  background-color: #fff;
+  box-shadow: 0px 0px 20px -4px rgba(0, 0, 0, 0.3);
+  padding: 1.5rem 1.3rem;
+  border-radius: 6px;
+  height: 100%;
+  margin-bottom: 1rem;
+  h5 {
+    color: #444c59;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    font-size: 14px;
+    color: #717171;
+  }
+}
