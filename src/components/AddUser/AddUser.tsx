@@ -1,4 +1,4 @@
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import * as yup from "yup";
 import React, { useEffect, useState } from "react";
 import {
@@ -20,7 +20,6 @@ interface IProps {
 const AddUserForm = ({ userEdit, updateUserList, toggleSidebar }: IProps) => {
   const [radioValue, setRadioValue] = useState(userEdit ? userEdit.gender : "");
   const [userChanges, setUserChanges] = useState<IUserData>({
-    id: NaN,
     firstName: "",
     lastName: "",
     email: "",
@@ -57,7 +56,21 @@ const AddUserForm = ({ userEdit, updateUserList, toggleSidebar }: IProps) => {
     birth: yup.string().required(),
     address: yup.string().required(),
     gender: yup.string().ensure().required(),
-    image: yup.string().ensure().required(),
+    image: yup
+      .mixed()
+      .required("You need to provide a file")
+      .test(
+        "type",
+        "Only the following formats are accepted: .jpeg, .jpg, .bmp, .pdf and .doc",
+        (value) => {
+          return (
+            value &&
+            (value[0].type === "image/jpeg" ||
+              value[0].type === "image/jpg" ||
+              value[0].type === "image/png")
+          );
+        }
+      ),
   });
   const Gender = [
     { name: "Male", value: "male" },
@@ -88,6 +101,7 @@ const AddUserForm = ({ userEdit, updateUserList, toggleSidebar }: IProps) => {
       <Formik
         validationSchema={schema}
         onSubmit={(values: IUserData) => {
+          console.log(values, "valuess");
           updateUserList(values);
         }}
         initialValues={userChanges}
@@ -273,11 +287,31 @@ const AddUserForm = ({ userEdit, updateUserList, toggleSidebar }: IProps) => {
                 {errors.address}
               </Form.Control.Feedback>
             </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Address</Form.Label>
+              <input
+                type="file"
+                onChange={(event) => {
+                  if (event.target.files && event.target.files[0]) {
+                    console.log(
+                      URL.createObjectURL(event.target.files[0]),
+                      "base 64 url"
+                    );
+                    setFieldValue(
+                      "image",
+                      URL.createObjectURL(event.target.files[0])
+                    );
+                  }
+                }}
+              />
+            </Form.Group>
 
             <Button
               variant="primary"
               type="submit"
-              onClick={isValid ? toggleSidebar : ""}
+              onClick={() => {
+                isValid ? toggleSidebar : "";
+              }}
             >
               Submit
             </Button>

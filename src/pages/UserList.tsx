@@ -5,7 +5,7 @@ import AddUserForm from "../components/AddUser/AddUser";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
 import SidebarLayout from "../components/Layouts/SidebarLayout";
 import { IUser, IUserData } from "../interfaces";
-import { UserListCall, UserSearch } from "../services/ApiCalls";
+import { AddUser, UserListCall, UserSearch } from "../services/ApiCalls";
 import styles from "./styles/UserList.module.scss";
 const UserList = () => {
   const [totalPages, setTotalPages] = useState(1);
@@ -64,7 +64,7 @@ const UserList = () => {
       setSearchedUsers([]);
     }
   }, [searchValue]);
-  const updateUserList = (user: IUserData) => {
+  const updateUserList = async (user: IUser) => {
     const usersCopy = userList;
     const userIndex = usersCopy.findIndex((item: IUser) => item.id == user.id);
     if (userIndex !== -1) {
@@ -73,7 +73,14 @@ const UserList = () => {
         ...user,
       };
     } else {
-      usersCopy.push(user);
+      try {
+        console.log(user);
+        const res = await AddUser(user);
+        usersCopy.push(res.data);
+      } catch (err) {
+        debugger;
+        console.log(err);
+      }
     }
     setUserList([...usersCopy]);
   };
