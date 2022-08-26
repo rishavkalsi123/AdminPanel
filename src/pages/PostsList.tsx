@@ -5,6 +5,7 @@ import { fetchPosts } from "../store/PostsSlice";
 import styles from "./styles/PostsList.module.scss";
 import { motion } from "framer-motion";
 import { PostsAnimation, postPageAnimation } from "./Animations/Animations";
+import { Skelton } from "../skelton/Skelton";
 
 const PostsList = () => {
   const postList = useSelector((state) => state.posts.data.posts);
@@ -24,23 +25,25 @@ const PostsList = () => {
       >
         <h1 className="mb-3">All Posts</h1>
         {status === "loading" ? (
-          <h4>Loading .....</h4>
+          <h4>
+            <Skelton times={6} />
+          </h4>
         ) : status === "error" ? (
           <h4>Error</h4>
         ) : (
           <div>
             {postList
               ? postList.map((item: any, index: number) => (
-                  <motion.div
+                  <div
                     className={styles.postCard}
                     key={item.id}
-                    variants={PostsAnimation}
+                    // variants={PostsAnimation}
                   >
                     <h5>
                       {index + 1} {item.title}
                     </h5>
                     <p>{item.body}</p>
-                  </motion.div>
+                  </div>
                 ))
               : "no data fon"}
           </div>
