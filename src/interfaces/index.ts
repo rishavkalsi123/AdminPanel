@@ -51,3 +51,7 @@ export interface IProductData {
   category: string;
   thumbnail: string;
 }
+export interface ILogin {
+  username: string;
+  password: string;
+}

@@ -50,7 +50,6 @@ const Dashboard = () => {
   const handleProductList = async () => {
     try {
       const res = await ProductListCall();
-      console.log("productList===>", res);
       setProductData({
         total: res.data.total,
         products: res.data.products,
@@ -63,16 +62,13 @@ const Dashboard = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("loading ==> ", loading);
-  }, [loading]);
+  useEffect(() => {}, [loading]);
 
   // ================== Get Users list ======================
 
   const handleUserList = async () => {
     try {
       const res = await UserListCall();
-      console.log("UserList===>", res);
       setUserList({
         total: res.data.total,
         users: res.data.users,
@@ -87,6 +83,7 @@ const Dashboard = () => {
   useEffect(() => {
     handleProductList();
     handleUserList();
+    console.log("testinvfvkfvm");
   }, []);
   return (
     <DashboardLayout>

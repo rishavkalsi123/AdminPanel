@@ -14,19 +14,34 @@ import { Provider } from "react-redux";
 import ProductDetail from "./pages/ProductDetail";
 import PostsList from "./pages/PostsList";
 import { AnimatePresence } from "framer-motion";
+import PrivateRoute from "./services/PrivateRoute";
+import Login from "./pages/Login";
 function App() {
   const location = useLocation();
   return (
     <Provider store={store}>
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.key}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/product" element={<ProductList />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/user" element={<UserList />} />
-          <Route path="/user/:id" element={<UserDetail />} />
-          <Route path="/posts" element={<PostsList />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<PrivateRoute Component={Dashboard} />} />
+          <Route
+            path="/product"
+            element={<PrivateRoute Component={ProductList} />}
+          />
+          <Route
+            path="/product/:id"
+            element={<PrivateRoute Component={ProductDetail} />}
+          />
+          <Route path="/user" element={<PrivateRoute Component={UserList} />} />
+          <Route
+            path="/user/:id"
+            element={<PrivateRoute Component={UserDetail} />}
+          />
+          <Route
+            path="/posts"
+            element={<PrivateRoute Component={PostsList} />}
+          />
+          <Route path="/cart" element={<PrivateRoute Component={Cart} />} />
         </Routes>
       </AnimatePresence>
     </Provider>

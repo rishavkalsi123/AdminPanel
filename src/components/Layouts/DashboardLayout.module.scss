@@ -4,6 +4,8 @@
 }
 .DashboardPage {
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
   padding-left: 230px;
   @include max(767) {
     padding-left: 200px;
