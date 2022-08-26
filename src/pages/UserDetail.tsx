@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
-import { SingleUserListCall } from "../services/ApiCalls";
+import { SingleUserListCall, SingleUserPost } from "../services/ApiCalls";
 import styles from "./styles/UserDetail.module.scss";
 
 const UserDetail = () => {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState<any>([]);
+  const [userPosts, SetUserPosts] = useState<any>([]);
   const { id } = useParams();
   const userID = id;
   const handleSingleUserData = async (id: number) => {
@@ -23,8 +24,18 @@ const UserDetail = () => {
       console.log(err);
     }
   };
+  const handleUsersPots = async (id: number) => {
+    try {
+      const res = await SingleUserPost(id);
+      console.log("posts==>", res.data.posts);
+      SetUserPosts(res.data.posts);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     handleSingleUserData(Number(userID));
+    handleUsersPots(Number(userID));
   }, []);
   return (
     <DashboardLayout>
@@ -61,6 +72,20 @@ const UserDetail = () => {
               heading="Address"
               value={userData.company?.address?.address}
             />
+          </div>
+          <div className={styles.userPosts_wrapper}>
+            <h3>Posts by {userData.firstName}</h3>
+            {userPosts.map((item) => (
+              <div className={styles.userSinglePost}>
+                <h4>{item.title}</h4>
+                <p>{item.body}</p>
+                <div className={styles.userPostHash}>
+                  {item.tags.map((tags: string) => (
+                    <li>{tags}</li>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ) : (

@@ -1,8 +1,6 @@
 @import "../../scss/mixins";
 @import "../../scss/var";
 
-.userDetailPage {
-}
 .userProfile {
   display: flex;
   gap: 1rem;
@@ -58,5 +56,46 @@
   .detail {
     font-size: 14px;
     color: #616161;
+  }
+}
+.userPosts_wrapper {
+  margin: 2rem 0 0;
+  > h3 {
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+  }
+}
+.userSinglePost {
+  background-color: #fff;
+  box-shadow: 0px 0px 20px -4px rgba(0, 0, 0, 0.3);
+  padding: 1.5rem 1.3rem;
+  border-radius: 6px;
+  height: 100%;
+  margin-bottom: 1rem;
+  h4 {
+    font-size: 16px;
+    color: #444c59;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    font-size: 14px;
+    color: #717171;
+  }
+}
+.userPostHash {
+  display: flex;
+  gap: 6px;
+  li {
+    list-style: none;
+    border: 1px solid #ccc;
+    padding: 4px 10px;
+    line-height: 1;
+    border-radius: 20px;
+    display: inline-flex;
+    &::before {
+      content: "#";
+      margin-right: 3px;
+      color: #919191;
+    }
   }
 }

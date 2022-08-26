@@ -9,29 +9,25 @@ interface Iprops {
   children: React.ReactNode;
 }
 const DashboardLayout = ({ children }: Iprops) => {
-  const animation = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-  };
   return (
-    <motion.div
-      className={styles.DashboardLayout}
-      variants={RouteAnimation}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-    >
-      <Header />
+    <div className={styles.DashboardLayout}>
+      {/* <Header /> */}
       <div className={styles.DashboardPage}>
         <div className={styles.DashboardSidebar}>
           <Sidebar />
         </div>
 
-        <div className={styles.DashboardBody}>
+        <motion.div
+          className={styles.DashboardBody}
+          variants={RouteAnimation}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
           <Container>{children}</Container>
-        </div>
+        </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

@@ -8,6 +8,13 @@ export const ProductListCall = (limit: number = 20) => {
       return response;
     });
 };
+export const UserSearch = (query: string) => {
+  return axios
+    .get(`${API_BASE_URL}/users/search?q=${query}`)
+    .then((response) => {
+      return response;
+    });
+};
 export const UserListCall = (skip: number = 0, limit: number = 0) => {
   return axios
     .get(`${API_BASE_URL}/users?limit=${limit}&skip=${skip}`)
@@ -23,15 +30,14 @@ export const ProductSearch = (query: string) => {
       return response;
     });
 };
-export const UserSearch = (query: string) => {
-  return axios
-    .get(`${API_BASE_URL}/users/search?q=${query}`)
-    .then((response) => {
-      return response;
-    });
-};
+
 export const SingleUserListCall = (id: number = 0) => {
   return axios.get(`${API_BASE_URL}/users/${id}`).then((response) => {
+    return response;
+  });
+};
+export const SingleUserPost = (id: number = 0) => {
+  return axios.get(`${API_BASE_URL}/users/${id}/posts`).then((response) => {
     return response;
   });
 };

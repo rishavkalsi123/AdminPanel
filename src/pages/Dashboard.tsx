@@ -96,8 +96,8 @@ const Dashboard = () => {
           <h1>Welcome</h1>
         </div>
         <div className={styles.cardWrapper}>
-          <Row className="g-5">
-            <Col md={6}>
+          <Row className="g-5 ">
+            <Col xl={4} lg={6}>
               <Link to="/product">
                 <div className={styles.dashBoardCard}>
                   <h4>All Products</h4>
@@ -110,7 +110,7 @@ const Dashboard = () => {
                 </div>
               </Link>
             </Col>
-            <Col md={6}>
+            <Col xl={4} lg={6}>
               <Link to="/user">
                 <div className={styles.dashBoardCard}>
                   <h4>All Users</h4>

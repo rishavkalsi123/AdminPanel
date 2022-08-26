@@ -3,15 +3,19 @@
   gap: 2rem;
 }
 .filterList {
-  padding: 3rem 1rem;
   width: 170px;
   flex-shrink: 0;
   form {
     position: sticky;
-    top: 136px;
+    top: 82px;
   }
   .singleField {
+    border: 1px solid #ededed;
+    box-shadow: 0px 0px 10px -4px rgb(0 0 0 / 30%);
+    border-radius: 6px;
     margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #fff;
     input[type="number"] {
       width: 100%;
     }
@@ -23,6 +27,8 @@
 }
 .ProductListPage {
   flex-grow: 1;
+  height: calc(100vh - 8.7rem);
+  overflow-y: auto;
   h1 {
     font-size: 2rem;
     color: #3a3a3a;

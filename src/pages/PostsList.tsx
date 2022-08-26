@@ -9,7 +9,7 @@ import { PostsAnimation, postPageAnimation } from "./Animations/Animations";
 const PostsList = () => {
   const postList = useSelector((state) => state.posts.data.posts);
   const status = useSelector((state: any) => state.posts.status);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   console.log("opsts====>", postList);
   useEffect(() => {
     dispatch(fetchPosts());
@@ -22,10 +22,11 @@ const PostsList = () => {
         initial="hidden"
         animate="visible"
       >
+        <h1 className="mb-3">All Posts</h1>
         {status === "loading" ? (
-          <h2>Loading .....</h2>
+          <h4>Loading .....</h4>
         ) : status === "error" ? (
-          <h2>Error</h2>
+          <h4>Error</h4>
         ) : (
           <div>
             {postList

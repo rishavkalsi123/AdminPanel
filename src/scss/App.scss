@@ -1,10 +1,12 @@
 @import "./var";
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: "Poppins", sans-serif;
 }
 ul {
   padding: 0;
@@ -66,10 +68,17 @@ a:hover {
 }
 
 .listingHeader {
-  margin-bottom: 10px;
+  margin-bottom: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px -4px rgb(0 0 0 / 30%);
+  border-radius: 6px;
+  h1 {
+    margin: 0 !important;
+  }
   .searchField {
     display: flex;
     align-items: center;
@@ -79,7 +88,7 @@ a:hover {
     z-index: 1;
     input {
       border: 1px solid #ccc;
-      border-radius: 0;
+      border-radius: 6px;
     }
     button {
       border: none;

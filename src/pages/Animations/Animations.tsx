@@ -26,10 +26,11 @@ export const RouteAnimation = {
   },
   visible: {
     opacity: 1,
-    transition: { duration: 0.2 },
+    transition: { duration: 0.2, ease: "linear" },
   },
   exit: {
+    x: "100vw",
     opacity: 0,
-    transition: { duration: 0.2, ease: "linear" },
+    transition: { duration: 0.4, ease: "linear" },
   },
 };

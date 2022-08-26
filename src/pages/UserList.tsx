@@ -113,7 +113,7 @@ const UserList = () => {
           </div>
           <Button onClick={handleAddUser}>Add User +</Button>
         </div>
-        <div>
+        <div className={styles.userTable}>
           <div className={styles.userList}>
             <Table bordered hover>
               <thead>

@@ -3,7 +3,7 @@
   background-color: #f7f6f9;
 }
 .DashboardPage {
-  min-height: calc(100vh - 56px);
+  min-height: 100vh;
   padding-left: 230px;
   @include max(767) {
     padding-left: 200px;
@@ -11,7 +11,7 @@
 }
 .DashboardSidebar {
   position: fixed;
-  top: 56px;
+  top: 0;
   left: 0;
   bottom: 0;
   width: 230px;
@@ -24,5 +24,11 @@
   }
 }
 .DashboardBody {
-  padding: 2rem;
+  padding: 1.5rem 2rem 1.5rem;
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2a2a2a;
+    margin-bottom: 1rem;
+  }
 }

@@ -2,14 +2,22 @@ import React from "react";
 import { FiUsers } from "react-icons/fi";
 import { RiShoppingBag3Line } from "react-icons/ri";
 import { GoDashboard } from "react-icons/go";
-import { NavLink } from "react-router-dom";
+import { BsCartCheck } from "react-icons/bs";
+import { MdOutlineMessage } from "react-icons/md";
+import { Link, NavLink } from "react-router-dom";
+import logo from "../../assets/logo.svg";
 import styles from "./Sidebar.module.scss";
 import { useSelector } from "react-redux";
-
 const Sidebar = () => {
   const itemsLength = useSelector((state: any) => state.cart.length);
   return (
     <div className={styles.sidebarList}>
+      <div className={styles.logo}>
+        <Link to="/">
+          <img src={logo} height="60" alt="logo" />
+          <span>RK Panel</span>
+        </Link>
+      </div>
       <ul>
         <NavLink to="/">
           <li>
@@ -31,13 +39,13 @@ const Sidebar = () => {
         </NavLink>
         <NavLink to="/posts">
           <li>
-            <RiShoppingBag3Line />
+            <MdOutlineMessage />
             Posts
           </li>
         </NavLink>
         <NavLink to="/cart">
           <li>
-            <RiShoppingBag3Line />
+            <BsCartCheck />
             Cart Items ({itemsLength})
           </li>
         </NavLink>

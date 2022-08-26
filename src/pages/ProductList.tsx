@@ -11,6 +11,8 @@ import { ProductSearch } from "../services/ApiCalls";
 import { addCart } from "../store/CartSlice";
 import { addProduct, setProducts, setStatus } from "../store/ProductSlice";
 import { fetchProducts } from "../store/ProductSlice";
+import { PostsAnimation } from "./Animations/Animations";
+import { motion } from "framer-motion";
 import styles from "./styles/ProductList.module.scss";
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -141,136 +143,143 @@ const ProductList = () => {
 
   return (
     <DashboardLayout>
-      <div className={styles.filterWrap}>
-        <div className={styles.filterList}>
-          <Form>
-            <div className={styles.singleField}>
-              <h5>Sorting</h5>
-              <Form.Check
-                type="radio"
-                name="sorting"
-                value="name"
-                label="By name"
-                onChange={handleSorting}
-              />
-              <Form.Check
-                type="radio"
-                name="sorting"
-                value="price"
-                label="By price"
-                onChange={handleSorting}
-              />
-              <Form.Check
-                type="radio"
-                name="sorting"
-                value="discount"
-                label="By Discount"
-                onChange={handleSorting}
-              />
-              <Form.Check
-                type="radio"
-                name="sorting"
-                value=""
-                label="None"
-                onChange={handleSorting}
-              />
-            </div>
-            <div className={styles.singleField}>
-              <h5>Filter Price</h5>
-              <div className={styles.priceFilter}>
-                <span>
-                  <label htmlFor="">Min</label>
-                  <input
-                    type="number"
-                    value={priceValues.min}
-                    name="min"
-                    min={0}
-                    onChange={handlePriceValues}
-                  />
-                </span>
-                <span>
-                  <label htmlFor="">Max</label>
-                  <input
-                    type="number"
-                    min={0}
-                    value={priceValues.max}
-                    name="max"
-                    onChange={handlePriceValues}
-                  />
-                </span>
-              </div>
-            </div>
-          </Form>
-        </div>
-        <div className={styles.ProductListPage}>
-          <div className="listingHeader">
-            <h1>All Products</h1>
-            <div className="searchField">
-              <input
-                className="form-control"
-                placeholder="search user"
-                value={searchValue}
-                onChange={handleSearch}
-                type="text"
-              />
-              {searchedProducts ? (
-                <div className="searchList">
-                  <ul>
-                    {searchedProducts.map((productSingle: IProductData) => (
-                      <Link
-                        to={`/product/${productSingle.id}`}
-                        key={productSingle.id}
-                      >
-                        <li>
-                          <h5>{productSingle.title} </h5>
-                          <span>{productSingle.description}</span>
-                        </li>
-                      </Link>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                <></>
-              )}
-            </div>
-            <Button onClick={handleAddProduct}>Add Product +</Button>
-          </div>
-          {product && status === "idle" ? (
-            product.length ? (
-              product.map((item: any) => (
-                <div key={item.id}>
-                  <ProductCard
-                    product={item}
-                    addCart={() => {
-                      AddToCart(item);
-                    }}
-                    editCard={() => {
-                      handleEditProduct(item);
-                    }}
-                  />
-                </div>
-              ))
-            ) : (
-              "No data found"
-            )
-          ) : status === "error" ? (
-            <Col>Something went wrong.</Col>
-          ) : status === "loading" ? (
-            <Col>Loading...</Col>
-          ) : (
-            "hello"
-          )}
-          <SidebarLayout
-            title={`${editProduct ? "Edit Products" : "Add Products"}`}
-            show={openSidebar}
-            handleToggle={handleToggleSidebar}
-          >
-            <AddProductForm
-              productEdit={editProduct}
-              updateProductList={handleUpdateProduct}
-              toggleSidebar={handleToggleSidebar}
+      <div>
+        <div className="listingHeader">
+          <h1>All Products</h1>
+          <div className="searchField">
+            <input
+              className="form-control"
+              placeholder="search user"
+              value={searchValue}
+              onChange={handleSearch}
+              type="text"
             />
-          </SidebarLayout>
+            {searchedProducts ? (
+              <div className="searchList">
+                <ul>
+                  {searchedProducts.map((productSingle: IProductData) => (
+                    <Link
+                      to={`/product/${productSingle.id}`}
+                      key={productSingle.id}
+                    >
+                      <li>
+                        <h5>{productSingle.title} </h5>
+                        <span>{productSingle.description}</span>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+          <Button onClick={handleAddProduct}>Add Product +</Button>
+        </div>
+        <div className={styles.filterWrap}>
+          <div className={styles.filterList}>
+            <Form>
+              <div className={styles.singleField}>
+                <h5>Sorting</h5>
+                <Form.Check
+                  type="radio"
+                  name="sorting"
+                  value="name"
+                  label="By name"
+                  onChange={handleSorting}
+                />
+                <Form.Check
+                  type="radio"
+                  name="sorting"
+                  value="price"
+                  label="By price"
+                  onChange={handleSorting}
+                />
+                <Form.Check
+                  type="radio"
+                  name="sorting"
+                  value="discount"
+                  label="By Discount"
+                  onChange={handleSorting}
+                />
+                <Form.Check
+                  type="radio"
+                  name="sorting"
+                  value=""
+                  label="None"
+                  onChange={handleSorting}
+                />
+              </div>
+              <div className={styles.singleField}>
+                <h5>Filter Price</h5>
+                <div className={styles.priceFilter}>
+                  <span>
+                    <label htmlFor="">Min</label>
+                    <input
+                      type="number"
+                      value={priceValues.min}
+                      name="min"
+                      min={0}
+                      onChange={handlePriceValues}
+                    />
+                  </span>
+                  <span>
+                    <label htmlFor="">Max</label>
+                    <input
+                      type="number"
+                      min={0}
+                      value={priceValues.max}
+                      name="max"
+                      onChange={handlePriceValues}
+                    />
+                  </span>
+                </div>
+              </div>
+            </Form>
+          </div>
+          <div className={styles.ProductListPage}>
+            {product && status === "idle" ? (
+              product.length ? (
+                product.map((item: any) => (
+                  <motion.div
+                    key={item.id}
+                    variants={PostsAnimation}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <ProductCard
+                      product={item}
+                      addCart={() => {
+                        AddToCart(item);
+                      }}
+                      editCard={() => {
+                        handleEditProduct(item);
+                      }}
+                    />
+                  </motion.div>
+                ))
+              ) : (
+                "No data found"
+              )
+            ) : status === "error" ? (
+              <Col>Something went wrong.</Col>
+            ) : status === "loading" ? (
+              <Col>Loading...</Col>
+            ) : (
+              "hello"
+            )}
+            <SidebarLayout
+              title={`${editProduct ? "Edit Products" : "Add Products"}`}
+              show={openSidebar}
+              handleToggle={handleToggleSidebar}
+            >
+              <AddProductForm
+                productEdit={editProduct}
+                updateProductList={handleUpdateProduct}
+                toggleSidebar={handleToggleSidebar}
+              />
+            </SidebarLayout>
+          </div>
         </div>
       </div>
     </DashboardLayout>
