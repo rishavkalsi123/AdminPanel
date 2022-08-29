@@ -17,15 +17,15 @@ const DashboardLayout = ({ children }: Iprops) => {
           <Sidebar />
         </div>
 
-        <motion.div
+        <div
           className={styles.DashboardBody}
-          variants={RouteAnimation}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
+          // variants={RouteAnimation}
+          // initial="hidden"
+          // animate="visible"
+          // exit="exit"
         >
           <Container>{children}</Container>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

@@ -36,9 +36,13 @@ export const UserSearch = (query: string) => {
       return response;
     });
 };
-export const UserListCall = (skip: number = 0, limit: number = 0) => {
+export const UserListCall = (
+  skip: number = 0,
+  limit: number = 0,
+  query: string = ""
+) => {
   return axios
-    .get(`${API_BASE_URL}/users?limit=${limit}&skip=${skip}`)
+    .get(`${API_BASE_URL}/users/search?q=${query}&limit=${limit}&skip=${skip}`)
     .then((response) => {
       return response;
     });

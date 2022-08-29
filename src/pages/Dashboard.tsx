@@ -83,7 +83,6 @@ const Dashboard = () => {
   useEffect(() => {
     handleProductList();
     handleUserList();
-    console.log("testinvfvkfvm");
   }, []);
   return (
     <DashboardLayout>

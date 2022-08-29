@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import AddUserForm from "../components/AddUser/AddUser";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
 import SidebarLayout from "../components/Layouts/SidebarLayout";
@@ -8,30 +8,29 @@ import { IUser, IUserData } from "../interfaces";
 import { AddUser, UserListCall, UserSearch } from "../services/ApiCalls";
 import styles from "./styles/UserList.module.scss";
 const UserList = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const getQuery = searchParams.get("q") || "";
   const [totalPages, setTotalPages] = useState(1);
   const [activePage, setActivePage] = useState(1);
   const [userList, setUserList] = useState([]);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [editUser, setEditUser] = useState<IUser | null>();
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(getQuery);
   const [searchedUsers, setSearchedUsers] = useState([]);
+  const [resultToggle, setResultToggle] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleUserList = async (skip: number, limit: number) => {
     try {
-      const res = await UserListCall(skip, limit);
+      const res = await UserListCall(skip, limit, getQuery);
       console.log("response===>", res);
       setUserList(res.data.users);
-      setTotalPages(Math.ceil(res.data.total / res.data.limit));
+      setTotalPages(Math.ceil(res.data.total / 20));
       if (res.status === 200) {
         setLoading(false);
       }
     } catch (err) {
       console.log(err);
     }
-  };
-  const handlePagination = (index: number) => {
-    let pageNumber = index + 1;
-    setActivePage(pageNumber);
   };
   const handleToggleAddUser = () => {
     setOpenSidebar(!openSidebar);
@@ -54,6 +53,13 @@ const UserList = () => {
   const handleSearch = (e: any) => {
     setSearchValue(e.target.value);
   };
+  const handleSearchButton = () => {
+    setSearchParams(searchValue ? { q: searchValue } : {});
+  };
+  const handlePagination = (index: number) => {
+    let pageNumber = index + 1;
+    setActivePage(pageNumber);
+  };
   useEffect(() => {
     if (searchValue) {
       const timerFunction = setTimeout(() => {
@@ -74,7 +80,6 @@ const UserList = () => {
       };
     } else {
       try {
-        console.log(user);
         const res = await AddUser(user);
         usersCopy.push(res.data);
       } catch (err) {
@@ -96,12 +101,21 @@ const UserList = () => {
           <div className="searchField">
             <input
               className="form-control"
+              onFocus={() => {
+                setResultToggle(true);
+              }}
+              onBlur={() => {
+                setResultToggle(false);
+              }}
               placeholder="search user"
               value={searchValue}
               onChange={handleSearch}
               type="text"
             />
-            {searchedUsers.length ? (
+            <button className="btn btn-primary" onClick={handleSearchButton}>
+              Search
+            </button>
+            {searchedUsers.length && resultToggle ? (
               <div className="searchList">
                 <ul>
                   {searchedUsers.map((userSingle: IUser) => (
@@ -173,7 +187,7 @@ const UserList = () => {
               </tbody>
             </Table>
           </div>
-          {!loading ? (
+          {!loading && totalPages > 1 ? (
             <ul className={styles.pagination}>
               {[...Array(totalPages)].map((_, index) => (
                 <li

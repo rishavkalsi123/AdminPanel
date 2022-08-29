@@ -19,7 +19,7 @@ const Sidebar = () => {
   };
   useEffect(() => {
     setLoginUser(getLoginUser());
-  });
+  }, []);
   return (
     <div className={styles.sidebarWrapper}>
       <div className={styles.sidebarList}>
