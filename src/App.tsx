@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./scss/App.scss";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 // import PrivateRoute from "./components/PrivateRoute";
 import ProductList from "./pages/ProductList";
